@@ -8,6 +8,8 @@ public class BoardGenerator extends JPanel implements ActionListener {
     int[][] board;
     JButton[][] gridB;
     int temp;
+    int sumC;
+    int sumR;
 
     BoardGenerator(int size){
         this.setLayout(new GridLayout(size, size));
@@ -16,26 +18,42 @@ public class BoardGenerator extends JPanel implements ActionListener {
     }
 
     public void generateBoard(int size){
-        board = new int[size][size];
 
-        for(int i=0; i<size; i++){
-            for(int j=0; j<size; j++){
-                if(i==0){
-                    if(j==0){
-                        board[i][j] = 0;
+        do{
+            board = new int[size][size];
+            sumC = 0;
+            sumR = 0;
+
+            for(int i=0; i<size; i++){
+                for(int j=0; j<size; j++){
+                    if(i==0){
+                        if(j==0){
+                            board[i][j] = 0;
+                        }
+                        else if (size <= 3) {
+                            board[i][j] = new Random().nextInt(12) + 3;
+                        } else board[i][j] = new Random().nextInt(20) + 3;
+                    }
+                    else if(j==0){
+                        if(size>3){
+                            board[i][j] = new Random().nextInt(20)+3;
+                        }
+                        else{
+                            board[i][j] = new Random().nextInt(12)+3;
+                        }
                     }
                     else{
-                        board[i][j] = new Random().nextInt(43)+3;
+                        board[i][j] = 0;
                     }
                 }
-                else if(j==0){
-                    board[i][0] = new Random().nextInt(43)+3;
-                }
-                else{
-                    board[i][j] = 0;
-                }
             }
-        }
+
+            for(int i=0; i<size; i++){
+                sumR += board[0][i];
+                sumC += board[i][0];
+            }
+        }while(sumC != sumR);
+
 
         for(int[] x: board){
             for(int y:x){
@@ -57,6 +75,7 @@ public class BoardGenerator extends JPanel implements ActionListener {
                 if(board[i][j] != 0){
                     temp = board[i][j];
                     gridB[i][j].setText(String.valueOf(temp));
+                    gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
                     gridB[i][j].setEnabled(false);
                 }
                 else if(i==0 && j==0){

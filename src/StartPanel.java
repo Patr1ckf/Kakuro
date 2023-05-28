@@ -1,27 +1,60 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class StartPanel extends JPanel {
-    public StartPanel() {
+public class StartPanel extends JPanel implements ActionListener {
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
+    JButton easyButton;
+    JButton mediumButton;
+    JButton hardButton;
+    private final FrameMain frameMain;
 
-        JButton easyButton = new JButton("Easy");
-        JButton mediumButton = new JButton("Medium");
-        JButton hardButton = new JButton("Hard");
+    StartPanel(FrameMain frameMain) {
 
-        add(easyButton);
-        add(mediumButton);
-        add(hardButton);
+        this.frameMain = frameMain;
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 200));
 
-        easyButton.addActionListener(event -> JOptionPane.showMessageDialog(null, "You clicked the Easy button"));
-        mediumButton.addActionListener(event -> JOptionPane.showMessageDialog(null, "You clicked the Medium button"));
-        hardButton.addActionListener(event -> JOptionPane.showMessageDialog(null, "You clicked the Hard button"));
+        easyButton = new JButton("Easy");
+        mediumButton = new JButton("Medium");
+        hardButton = new JButton("Hard");
 
-        setPreferredSize(new Dimension(400,150));
-        easyButton.setPreferredSize(new Dimension(100,100));
-        mediumButton.setPreferredSize(new Dimension(100,100));
-        hardButton.setPreferredSize(new Dimension(100,100));
+        this.add(easyButton);
+        this.add(mediumButton);
+        this.add(hardButton);
 
+        easyButton.addActionListener(this);
+        mediumButton.addActionListener(this);
+        hardButton.addActionListener(this);
+
+        this.setPreferredSize(new Dimension(800,700));
+        easyButton.setPreferredSize(new Dimension(200,200));
+        mediumButton.setPreferredSize(new Dimension(200,200));
+        hardButton.setPreferredSize(new Dimension(200,200));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == easyButton){
+            System.out.println("you clicked easy");
+            frameMain.game = new GamePanel(3);
+            frameMain.game.setBounds(50, 40, 800, 700);
+            frameMain.remove(this);
+            frameMain.add(frameMain.game);
+            frameMain.revalidate();
+            frameMain.repaint();
+        }
+        if(e.getSource() == mediumButton){
+            System.out.println("you clicked medium");
+            frameMain.game = new GamePanel(4);
+            frameMain.game.setBounds(50, 40, 800, 700);
+            frameMain.remove(this);
+            frameMain.add(frameMain.game);
+            frameMain.revalidate();
+            frameMain.repaint();
+        }
+        if(e.getSource() == hardButton){
+            System.out.println("you clicked hard");
+        }
     }
 }
