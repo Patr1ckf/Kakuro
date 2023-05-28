@@ -16,6 +16,7 @@ public class FrameMain extends JFrame {
         startPanel = new StartPanel(this);
         startPanel.setBounds(50, 50 , 800, 700);
         this.add(startPanel);
+
         this.setVisible(true);
     }
 }

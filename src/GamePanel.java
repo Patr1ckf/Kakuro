@@ -7,16 +7,19 @@ public class GamePanel extends JPanel implements ActionListener {
 
     BoardGenerator board;
     JButton backButton;
+    private StartPanel startPanel;
+    private final FrameMain frameMain;
 
-
-
-    GamePanel(int choice) {
+    GamePanel(int choice, FrameMain frameMain, StartPanel startPanel) {
         this.setLayout(null);
 
-        backButton = new JButton("wroc do menu");
+        this.frameMain = frameMain;
+        this.startPanel = startPanel;
+
+        backButton = new JButton("wróc do menu");
         backButton.setBounds(30, 0, 170, 80);
+        backButton.addActionListener(this);
         this.add(backButton);
-        backButton.addActionListener( this);
 
         board = new BoardGenerator(choice); // param to wielkosc planszy, docelowo bedzie to przekazywane ze startpanel
         board.setBounds(30, 90, 500, 600);
@@ -26,21 +29,12 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == backButton){
-            System.out.println("powrociles do menu");
-            new FrameMain();
-         /* do naprawy
-            startPanel = new StartPanel((FrameMain) FrameMain);
-            startPanel.remove(this);
+            frameMain.remove(this);
+            startPanel = new StartPanel(frameMain);
             startPanel.setBounds(50, 50 , 800, 700);
-
-            this.setSize(new Dimension(900, 800));
-            this.revalidate();
-            this.repaint();
-
-            this.add(startPanel);
-            startPanel.setVisible(true);
-
-        */
+            frameMain.add(startPanel);
+            frameMain.revalidate();
+            frameMain.repaint();
             }
         }
 }

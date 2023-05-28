@@ -37,7 +37,7 @@ public class StartPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == easyButton){
             System.out.println("you clicked easy");
-            frameMain.game = new GamePanel(3);
+            frameMain.game = new GamePanel(3, frameMain, this);
             frameMain.game.setBounds(50, 40, 800, 700);
             frameMain.remove(this);
             frameMain.add(frameMain.game);
@@ -46,7 +46,7 @@ public class StartPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == mediumButton){
             System.out.println("you clicked medium");
-            frameMain.game = new GamePanel(4);
+            frameMain.game = new GamePanel(4, frameMain, this);
             frameMain.game.setBounds(50, 40, 800, 700);
             frameMain.remove(this);
             frameMain.add(frameMain.game);
