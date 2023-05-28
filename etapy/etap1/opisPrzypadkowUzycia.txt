@@ -1,0 +1,33 @@
+Opis przypadków użycia:
+
+Program wyświetla panel startowy z możliwością wyboru jednego z trzech różnych poziomów rozgrywki przez gracza.
+
+Gracz przenoszony jest do okna rozgrywki na podstawie wybranego poziomu.
+
+Program generuje losową planszę do gry zgodnie z wybranym poziomem trudności przez gracza i sprawdza możliwość jej rozwiązania.
+
+Jeśli wygenerowana plansza jest rozwiązywalna zgodnie z zasadami gry, program zapamiętuje rozwiązanie i wyświetla wygenerowaną plansze graczowi w głównym panelu rozgrywki.
+
+Gracz uzupełnia pola na planszy poprzez wybranie danej komórki na planszy, a następnie wybiera cyfrę z wysuwającej się listy przy danej komórce na planszy.
+
+Gracz cofa swój ruch poprzez ponowne zaznaczenie komórki na planszy, którą chce zmienić i wybiera z listy pozostawienie jej jako pustą komórkę lub zmienia cyfrę na inną.
+
+Gracz, który chce w dowolnym momencie zakończyć grę i zapisać dotychczasowy wynik wybiera przycisk ZAPISZ GRĘ dostępny w głównym panelu programu i kończy rozgrywkę.
+
+Dostęp do zapisanych dotychczasowo gier umożliwia przycisk MOJE GRY(idk można zmienić).
+
+Gracz opuszcza grę bez zapisu dotychczasowych danych poprzez powrót do startowego panelu gry.
+
+Gracz może skorzystać z podpowiedzi SOLWERA(?) wybierając przycisk PODPOWIEDŹ widoczny w głównym panelu programu.
+
+Program wypełnia jedną dowolną komórkę, która jest pusta lub błędnie wypełniona przez gracza.
+
+Wybieranie podpowiedzi przez gracza jest nieograniczone.
+
+Po zakończonej rozgrywce i wypełnieniu wszystkich pól przez gracza program zwraca informację o poprawności rozwiązania.
+
+Program wyświetla komunikat o poprawnym rozwiązaniu planszy, gdy wszystkie komórki na planszy zostały wypełnione poprawnie przez gracza.
+
+Program koloruje na czerwono błędnie wypełnione komórki na planszy i czeka na decyzje gracza o zmianie błędnych odpowiedzi lub zakończeniu gry.
+
+Gracz kończy rozgrywkę poprzez użycie przycisku KONIEC GRY.

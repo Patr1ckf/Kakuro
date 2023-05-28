@@ -1,0 +1,17 @@
+-> KakuroMain - głowna klasa, uruchamiająca grę
+-> StartPannel - klasa tworząca panel z przyciskami wyboru poziomu trudności
+-> GamePannel - klasa rozgrywki, w której zostanie umieszczona plansza oraz przyciski
+-> BoardGenerator - klasa generująca planszę do gry o wielkości przekazanej jako argument konstruktora oraz umożliwiająca uzupełnianie 
+                    planszy i przekazanie ich do klasy Player
+-> GameSolver - klasa rozwiązująca przekazaną planszę i zwracająca informację czy plansza jest rozwiązywalna oraz podająca poprawne
+                rozwiązanie, a także kolorująca na bieżąco błędne odpowiedzi gracza i ostatecznie wyświetlająca komunikat o poprawnym 
+                rozwiązaniu
+-> ChoiceButtons - klasa tworząca siatkę przycisków 1-9, które bedą pojawiać się po naciśnięciu pola planszy
+-> ReturnButton - klasa umożliwiająca powrót do głównego menu i wyświetlająca przycisk na ekranie rozgrywki
+-> SaveGame - klasa(lub interfejs) zapisująca aktualny stan rozgrywki do pliku .ser (ew. parent class z użyciem dziedziczenia i trzema 
+              osobnymi klasami dla każdego poziomu trudności) po naciśnięciu przycisku save
+-> ReadGame - klasa do odczytu z pliku .ser poprzedniej rozgrywki, używana podczas wyboru poziomu trudności, na jej podstawie generowana   
+              będzie nowa plansza lub wczytywana zapisana
+-> Player - klasa przechowująca ruchy gracza w formie listy zawierającej współrzędne planszy 
+-> Hint - klasa wyświetlająca podpowiedź poprzez wyświetlenie jednego rozwiązania na planszy
+-> PrintBoard - klasa umożliwiająca wydruk planszy
