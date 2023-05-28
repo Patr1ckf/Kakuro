@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class ChoiceButtons {
+
     private JFrame frame;
     private JPanel panel;
     private JButton[] choiceButtons;
