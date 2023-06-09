@@ -49,19 +49,22 @@ public class StartPanel extends GameComponent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==easyButton){
-            Board.generateBoard(3);
+            Board.generateBoard(3, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 3);
             this.setVisible(false);
         }
         else if(e.getSource()==mediumButton){
-            Board.generateBoard(4);
+            Board.generateBoard(4, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
             this.setVisible(false);
         }
         else if(e.getSource()==hardButton){
-            System.out.println("hard");
+            Board.generateBoard(4, true);
+            gamePanel.create(this);
+            gamePanel.showBoard(Board.board, 4);
+            this.setVisible(false);
         }
     }
 }

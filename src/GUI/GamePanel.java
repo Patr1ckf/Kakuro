@@ -1,31 +1,46 @@
 package GUI;
 
+import Game.Board;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GamePanel extends GameComponent implements ActionListener {
+    private final JLayeredPane layeredPane;
+    private final JPanel gridPanel = new JPanel();
     private StartPanel startPanel;
     private JButton backButton;
-    private final JPanel gridPanel = new JPanel();
+    private JPanel gridOfButtons;
+    private JButton[][] gridB;
+    private JButton[] choiceButtons;
+    private JButton buttonX;
+    private JButton clickedBoard;
+    private int iToADD;
+    private int jToADD;
 
     GamePanel(){
         addBackButton();
         this.setLayout(null);
         this.setVisible(false);
-        this.setBounds(50, 40, 800, 700);
+        this.setBounds(50, 0, 800, 750);
+        layeredPane = new JLayeredPane();
+        layeredPane.setBounds(30, 90, 700, 750);
+        this.add(layeredPane);
     }
     public void create(Object...args){
         this.startPanel = (StartPanel) args[0];
         this.setVisible(true);
         this.add(gridPanel);
+        layeredPane.add(gridPanel, Integer.valueOf(0));
+        createChoiceButtons();
     }
 
     public void showBoard(int[][] board, int size){
-        JButton[][] gridB = new JButton[size][size];
+        gridB = new JButton[size][size];
         gridPanel.setLayout(new GridLayout(size, size));
-        gridPanel.setBounds(30, 90, 500, 600);
+        gridPanel.setBounds(0, 0, 500, 600);
         int temp;
 
         for(int i=0; i<size; i++){
@@ -56,10 +71,85 @@ public class GamePanel extends GameComponent implements ActionListener {
 
     public void addBackButton(){
         backButton = new JButton("wróc do menu");
-        backButton.setBounds(50, 0, 170, 80);
+        backButton.setBounds(50, 20, 140, 50);
         backButton.addActionListener(this);
         backButton.setVisible(true);
         this.add(backButton);
+    }
+
+    public void createChoiceButtons(){
+        gridOfButtons = new JPanel(new GridBagLayout());
+        gridOfButtons.setOpaque(false);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+//        constraints.insets = new Insets(1, 1, 1, 1);
+
+        choiceButtons = new JButton[9];
+        for (int i = 0; i < 9; i++) {
+            choiceButtons[i] = new JButton(String.valueOf(i + 1));
+            choiceButtons[i].setFont(new Font("Mv Boli", Font.PLAIN, 18));
+            choiceButtons[i].addActionListener(e -> {
+                JButton clicked = (JButton) e.getSource();
+                for (JButton choiceButton : choiceButtons) {
+                    if (clicked == choiceButton) {
+                        System.out.println(choiceButton);
+                        clickedBoard.setText(clicked.getText());
+                        clickedBoard.setFont(new Font("MV Boli", Font.PLAIN, 45));
+                        Board.board[iToADD][jToADD] = Integer.parseInt(clickedBoard.getText());
+                        gridOfButtons.setVisible(false);
+
+                        for(int[] l:Board.board){
+                            for(int j:l){
+                                System.out.print(j +" ");
+                            }
+                            System.out.println();
+                        }
+                    }
+                }
+            });
+            constraints.gridx = i % 3;
+            constraints.gridy = i / 3;
+            gridOfButtons.add(choiceButtons[i], constraints);
+        }
+
+        buttonX = new JButton("X");
+        buttonX.setFont(new Font("Mv Boli", Font.PLAIN, 18));
+        buttonX.setHorizontalAlignment(SwingConstants.CENTER);
+        buttonX.addActionListener(e -> {
+            System.out.println("X");
+            gridOfButtons.setVisible(false);
+        });
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        gridOfButtons.add(buttonX, constraints);
+
+        gridOfButtons.setVisible(false);
+        layeredPane.add(gridOfButtons, Integer.valueOf(1));
+
+    }
+    public void showChoiceOfButtons(int x, int y){
+        if(gridB.length==3){
+            gridOfButtons.setBounds(x+10, y+70, 150, 150);
+        }
+        else if(gridB.length==4){
+            for (int i = 0; i < 9; i++) {
+                choiceButtons[i].setFont(new Font("Mv Boli", Font.PLAIN, 14));
+            }
+            buttonX.setFont(new Font("Mv Boli", Font.PLAIN, 12));
+            gridOfButtons.setBounds(x+10, y+65, 135, 135);
+        }
+        else if(gridB.length==5){
+            for (int i = 0; i < 9; i++) {
+                choiceButtons[i].setFont(new Font("Mv Boli", Font.PLAIN, 12));
+            }
+            buttonX.setFont(new Font("Mv Boli", Font.PLAIN, 12));
+
+            gridOfButtons.setBounds(x+10, y+50, 130, 130);
+        }
+
+        gridOfButtons.setVisible(true);
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
@@ -68,6 +158,22 @@ public class GamePanel extends GameComponent implements ActionListener {
             this.setVisible(false);
             clearBoard();
             startPanel.setVisible(true);
+
+            if(gridOfButtons != null){
+                gridOfButtons.setVisible(false);
+            }
+        }
+
+        clickedBoard = (JButton) e.getSource();
+        for(int i=0; i< gridB.length; i++){
+            for(int j=0; j<gridB[i].length; j++){
+                if(clickedBoard == gridB[i][j]){
+                    System.out.println(i + "" + j);
+                    iToADD = i;
+                    jToADD = j;
+                    showChoiceOfButtons(gridB[i][j].getX(), gridB[i][j].getY());
+                }
+            }
         }
     }
 }

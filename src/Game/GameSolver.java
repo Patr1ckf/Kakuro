@@ -5,22 +5,6 @@ import java.util.Set;
 
 public class GameSolver {
 
-    public static void main(String[] args) {
-
-        int testSize = 4;
-        int[][] testBoard = {
-                {0, 12, 9},
-                {16, 0, 0},
-                {5, 0, 0}};
-        int[][] testBoard2 = {
-                {0, 20, 10, 9},
-                {21, 0, 0, 0},
-                {11, 0, 0, 0},
-                {7, 0, 0, 0}};
-
-        System.out.println(solve(testBoard2, 1, 1, testSize));
-    }
-
     public static boolean isValid(int[][] board, int column, int row, int value){
 
         int sumRow = 0;
@@ -92,7 +76,7 @@ public class GameSolver {
     public static boolean solve(int[][] board, int column, int row, int size){
 
         if(row == size){
-            printBoard(board);
+//            printBoard(board);
             return true;
         }
         else if(column == size){
@@ -117,14 +101,13 @@ public class GameSolver {
         }
     }
 
-    public static void printBoard(int[][] board) {
-        for (int[] row : board) {
-            for (int cell : row) {
-                System.out.print(cell + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("=============");
-    }
-
+//    public static void printBoard(int[][] board) {
+//        for (int[] row : board) {
+//            for (int cell : row) {
+//                System.out.print(cell + " ");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println("=============");
+//    }
 }

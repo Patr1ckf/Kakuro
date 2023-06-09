@@ -1,16 +1,20 @@
 package Game;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Board {
     public static int[][] board;
+    public static int[][] solvedBoard;
 
-    public static void generateBoard(int size) {
+    public static void generateBoard(int size, boolean hardLevel) {
+        board = new int[size][size];
+        solvedBoard = new int[size][size];
         int sumR;
         int sumC;
 
         do {
-            board = new int[size][size];
+            resetBoard(board);
             sumC = 0;
             sumR = 0;
 
@@ -19,13 +23,15 @@ public class Board {
                     if (i == 0) {
                         if (j == 0) {
                             board[i][j] = 0;
-                        } else if (size <= 3) {
+                        } else if (size <= 4 && !hardLevel) {
                             board[i][j] = new Random().nextInt(12) + 3;
-                        } else board[i][j] = new Random().nextInt(20) + 3;
+                        } else if (hardLevel){
+                            board[i][j] = new Random().nextInt(18) + 7;
+                        }
                     } else if (j == 0) {
-                        if (size > 3) {
-                            board[i][j] = new Random().nextInt(20) + 3;
-                        } else {
+                        if (hardLevel) {
+                            board[i][j] = new Random().nextInt(18) + 7;
+                        } else if(size <=4){
                             board[i][j] = new Random().nextInt(12) + 3;
                         }
                     } else {
@@ -38,6 +44,34 @@ public class Board {
                 sumR += board[0][i];
                 sumC += board[i][0];
             }
-        } while (sumC != sumR);
+
+            if (sumC == sumR) {
+                if (GameSolver.solve(board, 1, 1, size)) {
+                    copyBoard(board, solvedBoard);
+                    resetForUser(board, size);
+                    break;
+                }
+            }
+        } while(true);
+    }
+
+    public static void resetBoard(int[][] board) {
+        for (int[] ints : board) {
+            Arrays.fill(ints, 0);
+        }
+    }
+
+    public static void copyBoard(int[][] source, int[][] destination) {
+        for (int i = 0; i < source.length; i++) {
+            System.arraycopy(source[i], 0, destination[i], 0, source[i].length);
+        }
+    }
+
+    public static void resetForUser(int[][] board, int size){
+        for (int i = 1; i < size; i++) {
+            for (int j = 1; j < size; j++) {
+                board[i][j] =0;
+            }
+        }
     }
 }
