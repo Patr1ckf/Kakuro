@@ -1,3 +1,5 @@
+package Game;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -5,7 +7,7 @@ public class GameSolver {
 
     public static void main(String[] args) {
 
-        int testSize = 3;
+        int testSize = 4;
         int[][] testBoard = {
                 {0, 12, 9},
                 {16, 0, 0},
@@ -16,7 +18,7 @@ public class GameSolver {
                 {11, 0, 0, 0},
                 {7, 0, 0, 0}};
 
-        System.out.println(solve(testBoard, 1, 1, testSize));
+        System.out.println(solve(testBoard2, 1, 1, testSize));
     }
 
     public static boolean isValid(int[][] board, int column, int row, int value){
