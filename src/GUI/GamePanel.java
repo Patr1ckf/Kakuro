@@ -117,6 +117,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         buttonX.setHorizontalAlignment(SwingConstants.CENTER);
         buttonX.addActionListener(e -> {
             System.out.println("X");
+            clickedBoard.setText("");
             gridOfButtons.setVisible(false);
         });
         constraints.gridx = 1;
