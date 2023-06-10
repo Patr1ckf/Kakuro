@@ -17,6 +17,7 @@ public class StartPanel extends GameComponent implements ActionListener {
         this.gamePanel = (GamePanel) gamePanel;
     }
 
+    @Override
     public void create(Object...args){
         this.setBounds(50, 50 , 800, 700);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 200));

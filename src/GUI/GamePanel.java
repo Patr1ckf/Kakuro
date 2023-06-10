@@ -29,6 +29,8 @@ public class GamePanel extends GameComponent implements ActionListener {
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
     }
+
+    @Override
     public void create(Object...args){
         this.startPanel = (StartPanel) args[0];
         this.setVisible(true);
