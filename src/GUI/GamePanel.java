@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
 //import static GUI.PrintButton.frame;
 //import static GUI.PrintButton.main;
 
@@ -37,11 +38,17 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton checkSolutionButton;
     private int iToADD;
     private int jToADD;
+    /////////////////////////////
+    private JButton hintButton;
+    /////////////////////////////
 
     GamePanel(){
         addBackButton();
         addPrintButton();
         addSolutionButton();
+
+        addHintButton();
+
         this.setLayout(null);
         this.setVisible(false);
         this.setBounds(50, 0, 800, 750);
@@ -108,38 +115,49 @@ public class GamePanel extends GameComponent implements ActionListener {
     }
     public void addPrintButton(){
         PrintButton = new JButton("zapisz w postaci screena");
-        PrintButton.setBounds(230, 20, 200, 50);
+        PrintButton.setBounds(180, 20, 200, 50);
         PrintButton.addActionListener(this);
         PrintButton.setVisible(true);
         this.add(PrintButton);
     }
     public void addBackButton(){
         backButton = new JButton("wróc do menu");
-        backButton.setBounds(50, 20, 140, 50);
+        backButton.setBounds(30, 20, 140, 50);
         backButton.addActionListener(this);
         backButton.setVisible(true);
         this.add(backButton);
     }
     public void addCheckSolutionButton() {
         checkSolutionButton = new JButton("Sprawdź rozwiązanie");
-        checkSolutionButton.setBounds(600, 20, 200, 50);
+        checkSolutionButton.setBounds(690, 20, 200, 50);
         checkSolutionButton.addActionListener(this);
         checkSolutionButton.setVisible(true);
         this.add(checkSolutionButton);
     }
     public void addSolutionButton(){
         solutionButton = new JButton("Pokaż rozwiązanie");
-        solutionButton.setBounds(450,20,140,50);
+        solutionButton.setBounds(390,20,140,50);
         solutionButton.addActionListener(this);
         solutionButton.setVisible(true);
         this.add(solutionButton);
     }
+    ///////////////////////////////////////////////////////////////
+    public void addHintButton(){
+        hintButton = new JButton("Pokaż podpowiedź");
+        hintButton.setBounds(540,20,140,50);
+        hintButton.addActionListener(this);
+        hintButton.setVisible(true);
+        this.add(hintButton);
+    }
+    ////////////////////////////////////////////////////////////////
     public void createChoiceButtons(){
         gridOfButtons = new JPanel(new GridBagLayout());
         gridOfButtons.setOpaque(false);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
 //        constraints.insets = new Insets(1, 1, 1, 1);
+
+
 
         choiceButtons = new JButton[9];
         for (int i = 0; i < 9; i++) {
@@ -269,7 +287,29 @@ public class GamePanel extends GameComponent implements ActionListener {
         if(e.getSource()==solutionButton) {
             solveBoard();
         }
+        //////////////////////////////////////////////////////////////////////////////////////
+        if (e.getSource() == hintButton) {
+            if (Board.solvedBoard == null) {
+                System.out.println("Brak dostępnego rozwiązania.");
+                return;
+            }
 
+            // Losowanie pustego miejsca na planszy nie biorac pod uwage 1 wiersza i 1 kolumny
+            int size = Board.board.length;
+            int row, col;
+            do {
+                row = (int) (Math.random() * (size-1))+1;
+                col = (int) (Math.random() * (size-1))+1;
+            } while (Board.board[row][col] != 0);
+
+            // Uzupełnienie wylosowanego miejsca zgodnie ze zmienną solvedBoard
+            gridB[row][col].setText(String.valueOf(Board.solvedBoard[row][col]));
+            gridB[row][col].setFont(new Font("MV Boli", Font.PLAIN, 45));
+            gridB[row][col].setEnabled(false);
+
+            Board.setHintUsed(true);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////
         clickedBoard = (JButton) e.getSource();
         for(int i=0; i< gridB.length; i++){
             for(int j=0; j<gridB[i].length; j++){
