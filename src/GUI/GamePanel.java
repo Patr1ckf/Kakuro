@@ -23,6 +23,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton buttonX;
     private JButton clickedBoard;
     private JButton PrintButton;
+    private JButton checkSolutionButton;
     private int iToADD;
     private int jToADD;
 
@@ -35,6 +36,8 @@ public class GamePanel extends GameComponent implements ActionListener {
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
+
+        addCheckSolutionButton();
     }
     public void create(Object...args){
         this.startPanel = (StartPanel) args[0];
@@ -88,6 +91,13 @@ public class GamePanel extends GameComponent implements ActionListener {
         backButton.addActionListener(this);
         backButton.setVisible(true);
         this.add(backButton);
+    }
+    public void addCheckSolutionButton() {
+        checkSolutionButton = new JButton("Sprawdź rozwiązanie");
+        checkSolutionButton.setBounds(600, 20, 200, 50);
+        checkSolutionButton.addActionListener(this);
+        checkSolutionButton.setVisible(true);
+        this.add(checkSolutionButton);
     }
 
     public void createChoiceButtons(){
@@ -199,6 +209,20 @@ public class GamePanel extends GameComponent implements ActionListener {
             } catch (Exception a) {
                 a.printStackTrace();
             }
+        }
+        if (e.getSource() == checkSolutionButton) {
+            if (Board.isBoardSolved()) {
+                checkSolutionButton.setBackground(Color.GREEN);
+                checkSolutionButton.setText("Rozwiązanie poprawne");
+            } else {
+                checkSolutionButton.setBackground(Color.RED);
+                checkSolutionButton.setText("Błędne rozwiązanie");
+            }
+        }
+
+        if (e.getSource() instanceof JButton && !e.getSource().equals(checkSolutionButton)) {
+            checkSolutionButton.setBackground(null);
+            checkSolutionButton.setText("Sprawdź rozwiązanie");
         }
 
         clickedBoard = (JButton) e.getSource();

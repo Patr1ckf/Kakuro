@@ -54,7 +54,16 @@ public class Board {
             }
         } while(true);
     }
-
+    public static boolean isBoardSolved() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] != solvedBoard[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public static void resetBoard(int[][] board) {
         for (int[] ints : board) {
             Arrays.fill(ints, 0);
