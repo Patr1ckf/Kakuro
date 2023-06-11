@@ -6,6 +6,13 @@ import java.util.Random;
 public class Board {
     public static int[][] board;
     public static int[][] solvedBoard;
+    /////////////////////////////////////////////////////
+    private static boolean hintUsed = false;
+
+    public static void setHintUsed(boolean used) {
+        hintUsed = used;
+    }
+    ///////////////////////////////////////////////////////
 
     public static void generateBoard(int size, boolean hardLevel) {
         board = new int[size][size];
@@ -55,10 +62,18 @@ public class Board {
         } while(true);
     }
     public static boolean isBoardSolved() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != solvedBoard[i][j]) {
-                    return false;
+        ///////////////////////////////////////////////////////
+        if (solvedBoard == null) {
+            return false;
+        }
+
+        if(!hintUsed){
+            /////////////////////////////////////////////////////
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    if (board[i][j] != solvedBoard[i][j]) {
+                        return false;
+                    }
                 }
             }
         }
