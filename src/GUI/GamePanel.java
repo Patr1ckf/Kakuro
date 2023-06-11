@@ -12,12 +12,23 @@ import java.io.File;
 //import static GUI.PrintButton.frame;
 //import static GUI.PrintButton.main;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Set;
+import java.util.HashSet;
+import javax.imageio.ImageIO;
+
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
     private final JPanel gridPanel = new JPanel();
     private StartPanel startPanel;
     private JButton backButton;
     private JPanel gridOfButtons;
+    private JButton solutionButton;
     private JButton[][] gridB;
     private JButton[] choiceButtons;
     private JButton buttonX;
@@ -30,6 +41,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     GamePanel(){
         addBackButton();
         addPrintButton();
+        addSolutionButton();
         this.setLayout(null);
         this.setVisible(false);
         this.setBounds(50, 0, 800, 750);
@@ -74,7 +86,21 @@ public class GamePanel extends GameComponent implements ActionListener {
             }
         }
     }
+    private void solveBoard() {
+        if (Board.solvedBoard == null) {
+            System.out.println("Brak dostępnego rozwiązania.");
+            return;
+        }
 
+        int size = Board.solvedBoard.length;
+        for (int i = 1; i < size; i++) {
+            for (int j = 1; j < size; j++) {
+                gridB[i][j].setText(String.valueOf(Board.solvedBoard[i][j]));
+                gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
+                gridB[i][j].setEnabled(false);
+            }
+        }
+    }
     public void clearBoard() {
         gridPanel.removeAll();
         gridPanel.revalidate();
@@ -101,7 +127,13 @@ public class GamePanel extends GameComponent implements ActionListener {
         checkSolutionButton.setVisible(true);
         this.add(checkSolutionButton);
     }
-
+    public void addSolutionButton(){
+        solutionButton = new JButton("Pokaż rozwiązanie");
+        solutionButton.setBounds(450,20,140,50);
+        solutionButton.addActionListener(this);
+        solutionButton.setVisible(true);
+        this.add(solutionButton);
+    }
     public void createChoiceButtons(){
         gridOfButtons = new JPanel(new GridBagLayout());
         gridOfButtons.setOpaque(false);
@@ -234,6 +266,9 @@ public class GamePanel extends GameComponent implements ActionListener {
             checkSolutionButton.setBackground(null);
             checkSolutionButton.setText("Sprawdź rozwiązanie");
         }
+        if(e.getSource()==solutionButton) {
+            solveBoard();
+        }
 
         clickedBoard = (JButton) e.getSource();
         for(int i=0; i< gridB.length; i++){
@@ -248,3 +283,4 @@ public class GamePanel extends GameComponent implements ActionListener {
         }
     }
 }
+
