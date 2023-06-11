@@ -143,7 +143,15 @@ public class GamePanel extends GameComponent implements ActionListener {
         buttonX.addActionListener(e -> {
             System.out.println("X");
             clickedBoard.setText("");
+            Board.board[iToADD][jToADD] = 0;
             gridOfButtons.setVisible(false);
+
+            for(int[] l:Board.board){
+                for(int j:l){
+                    System.out.print(j +" ");
+                }
+                System.out.println();
+            }
         });
         constraints.gridx = 1;
         constraints.gridy = 3;
