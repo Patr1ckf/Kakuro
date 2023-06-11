@@ -2,10 +2,15 @@ package GUI;
 
 import Game.Board;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+//import static GUI.PrintButton.frame;
+//import static GUI.PrintButton.main;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -17,17 +22,22 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton[] choiceButtons;
     private JButton buttonX;
     private JButton clickedBoard;
+    private JButton PrintButton;
+    private JButton checkSolutionButton;
     private int iToADD;
     private int jToADD;
 
     GamePanel(){
         addBackButton();
+        addPrintButton();
         this.setLayout(null);
         this.setVisible(false);
         this.setBounds(50, 0, 800, 750);
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
+
+        addCheckSolutionButton();
     }
 
     @Override
@@ -70,13 +80,26 @@ public class GamePanel extends GameComponent implements ActionListener {
         gridPanel.revalidate();
         gridPanel.repaint();
     }
-
+    public void addPrintButton(){
+        PrintButton = new JButton("zapisz w postaci screena");
+        PrintButton.setBounds(230, 20, 200, 50);
+        PrintButton.addActionListener(this);
+        PrintButton.setVisible(true);
+        this.add(PrintButton);
+    }
     public void addBackButton(){
         backButton = new JButton("wróc do menu");
         backButton.setBounds(50, 20, 140, 50);
         backButton.addActionListener(this);
         backButton.setVisible(true);
         this.add(backButton);
+    }
+    public void addCheckSolutionButton() {
+        checkSolutionButton = new JButton("Sprawdź rozwiązanie");
+        checkSolutionButton.setBounds(600, 20, 200, 50);
+        checkSolutionButton.addActionListener(this);
+        checkSolutionButton.setVisible(true);
+        this.add(checkSolutionButton);
     }
 
     public void createChoiceButtons(){
@@ -165,6 +188,43 @@ public class GamePanel extends GameComponent implements ActionListener {
             if(gridOfButtons != null){
                 gridOfButtons.setVisible(false);
             }
+        }
+
+        if(e.getSource()==PrintButton) {
+            BufferedImage image = new BufferedImage(  gridPanel.getWidth(),   gridPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D graphics2D = image.createGraphics();
+            gridPanel.print(graphics2D);
+            String baseFileName = "panel";
+            String fileExtension = "jpg";
+            int fileCount = 1;
+            File outputFile;
+            do {
+                String fileName = baseFileName + "_" + fileCount + "." + fileExtension;
+                outputFile = new File(fileName);
+                fileCount++;
+            } while (outputFile.exists());
+
+            // Zapis obrazu do pliku JPG
+            try {
+                ImageIO.write(image, "jpg", outputFile);
+                System.out.println("Zapisano obraz do pliku: " + outputFile.getAbsolutePath());
+            } catch (Exception a) {
+                a.printStackTrace();
+            }
+        }
+        if (e.getSource() == checkSolutionButton) {
+            if (Board.isBoardSolved()) {
+                checkSolutionButton.setBackground(Color.GREEN);
+                checkSolutionButton.setText("Rozwiązanie poprawne");
+            } else {
+                checkSolutionButton.setBackground(Color.RED);
+                checkSolutionButton.setText("Błędne rozwiązanie");
+            }
+        }
+
+        if (e.getSource() instanceof JButton && !e.getSource().equals(checkSolutionButton)) {
+            checkSolutionButton.setBackground(null);
+            checkSolutionButton.setText("Sprawdź rozwiązanie");
         }
 
         clickedBoard = (JButton) e.getSource();
