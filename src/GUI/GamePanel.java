@@ -9,19 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
-//import static GUI.PrintButton.frame;
-//import static GUI.PrintButton.main;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Set;
-import java.util.HashSet;
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -38,9 +29,9 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton checkSolutionButton;
     private int iToADD;
     private int jToADD;
-    /////////////////////////////
     private JButton hintButton;
-    /////////////////////////////
+    private List<List<Integer>> usedHints;
+    boolean containList = false;
 
     GamePanel(){
         addBackButton();
@@ -55,6 +46,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
+        usedHints = new ArrayList<>();
 
         addCheckSolutionButton();
     }
@@ -105,6 +97,7 @@ public class GamePanel extends GameComponent implements ActionListener {
                 gridB[i][j].setText(String.valueOf(Board.solvedBoard[i][j]));
                 gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
                 gridB[i][j].setEnabled(false);
+                Board.board[i][j] = Board.solvedBoard[i][j];
             }
         }
     }
@@ -129,7 +122,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     }
     public void addCheckSolutionButton() {
         checkSolutionButton = new JButton("Sprawdź rozwiązanie");
-        checkSolutionButton.setBounds(690, 20, 200, 50);
+        checkSolutionButton.setBounds(620, 200, 180, 50);
         checkSolutionButton.addActionListener(this);
         checkSolutionButton.setVisible(true);
         this.add(checkSolutionButton);
@@ -287,29 +280,32 @@ public class GamePanel extends GameComponent implements ActionListener {
         if(e.getSource()==solutionButton) {
             solveBoard();
         }
-        //////////////////////////////////////////////////////////////////////////////////////
+
         if (e.getSource() == hintButton) {
             if (Board.solvedBoard == null) {
                 System.out.println("Brak dostępnego rozwiązania.");
                 return;
             }
-
             // Losowanie pustego miejsca na planszy nie biorac pod uwage 1 wiersza i 1 kolumny
             int size = Board.board.length;
-            int row, col;
-            do {
-                row = (int) (Math.random() * (size-1))+1;
-                col = (int) (Math.random() * (size-1))+1;
-            } while (Board.board[row][col] != 0);
+            int row = 1;
+            int col = 1;
+
+            if (!Board.isBoardSolved()) {
+                do {
+                    row = (int) (Math.random() * (size-1))+1;
+                    col = (int) (Math.random() * (size-1))+1;
+
+                } while (Board.board[row][col] != 0);
+            }
 
             // Uzupełnienie wylosowanego miejsca zgodnie ze zmienną solvedBoard
             gridB[row][col].setText(String.valueOf(Board.solvedBoard[row][col]));
             gridB[row][col].setFont(new Font("MV Boli", Font.PLAIN, 45));
             gridB[row][col].setEnabled(false);
-
-            Board.setHintUsed(true);
+            Board.board[row][col] = Board.solvedBoard[row][col];
         }
-        ////////////////////////////////////////////////////////////////////////////////////
+
         clickedBoard = (JButton) e.getSource();
         for(int i=0; i< gridB.length; i++){
             for(int j=0; j<gridB[i].length; j++){

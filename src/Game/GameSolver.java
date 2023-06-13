@@ -76,7 +76,7 @@ public class GameSolver {
     public static boolean solve(int[][] board, int column, int row, int size){
 
         if(row == size){
-//            printBoard(board);
+            printBoard(board);
             return true;
         }
         else if(column == size){
@@ -101,13 +101,14 @@ public class GameSolver {
         }
     }
 
-//    public static void printBoard(int[][] board) {
-//        for (int[] row : board) {
-//            for (int cell : row) {
-//                System.out.print(cell + " ");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("=============");
-//    }
+    public static void printBoard(int[][] board) {
+        for (int[] row : board) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("=============");
+    }
 }
+
