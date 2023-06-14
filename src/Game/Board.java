@@ -6,6 +6,7 @@ import java.util.Random;
 public class Board {
     public static int[][] board;
     public static int[][] solvedBoard;
+    public int[][] boardToSer;
 
     public static void generateBoard(int size, boolean hardLevel) {
         board = new int[size][size];
@@ -83,5 +84,9 @@ public class Board {
                 board[i][j] =0;
             }
         }
+    }
+
+    public void saving(int[][] board){
+        this.boardToSer = board;
     }
 }

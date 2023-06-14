@@ -1,6 +1,7 @@
 package GUI;
 
 import Game.Board;
+import Game.Save;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -24,10 +26,12 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton nextBoardButton;
     private JButton PrintButton;
     private JButton checkSolutionButton;
+    private JButton saveButton;
     private int iToADD;
     private int jToADD;
     private JButton hintButton;
     public static int choosenSize = 0;
+    public Board boardS;
 
     GamePanel(){
         addBackButton();
@@ -36,6 +40,9 @@ public class GamePanel extends GameComponent implements ActionListener {
 
         addHintButton();
         addNextBoard();
+        addSaveButton();
+
+        Board boardS = new Board();
 
         this.setLayout(null);
         this.setVisible(false);
@@ -146,6 +153,14 @@ public class GamePanel extends GameComponent implements ActionListener {
         nextBoardButton.addActionListener(this);
         nextBoardButton.setVisible(true);
         this.add(nextBoardButton);
+    }
+
+    public void addSaveButton(){
+        saveButton = new JButton("Zapisz grę");
+        saveButton.setBounds(540,400,140,50);
+        saveButton.addActionListener(this);
+        saveButton.setVisible(true);
+        this.add(saveButton);
     }
 
     public void createChoiceButtons(){
@@ -294,6 +309,14 @@ public class GamePanel extends GameComponent implements ActionListener {
         }
         if(e.getSource()==solutionButton) {
             solveBoard();
+        }
+
+        if(e.getSource() == saveButton){
+            try {
+                Save.saveObj(boardS);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         if (e.getSource() == hintButton) {
