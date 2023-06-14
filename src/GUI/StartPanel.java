@@ -54,18 +54,21 @@ public class StartPanel extends GameComponent implements ActionListener {
             Board.generateBoard(3, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 3);
+            GamePanel.choosenSize = 3;
             this.setVisible(false);
         }
         else if(e.getSource()==mediumButton){
             Board.generateBoard(4, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
+            GamePanel.choosenSize = 4;
             this.setVisible(false);
         }
         else if(e.getSource()==hardButton){
             Board.generateBoard(4, true);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
+            GamePanel.choosenSize = 4;
             this.setVisible(false);
         }
     }

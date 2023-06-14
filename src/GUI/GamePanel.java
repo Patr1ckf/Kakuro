@@ -9,10 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -25,13 +21,13 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton[] choiceButtons;
     private JButton buttonX;
     private JButton clickedBoard;
+    private JButton nextBoardButton;
     private JButton PrintButton;
     private JButton checkSolutionButton;
     private int iToADD;
     private int jToADD;
     private JButton hintButton;
-    private List<List<Integer>> usedHints;
-    boolean containList = false;
+    public static int choosenSize = 0;
 
     GamePanel(){
         addBackButton();
@@ -39,6 +35,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         addSolutionButton();
 
         addHintButton();
+        addNextBoard();
 
         this.setLayout(null);
         this.setVisible(false);
@@ -46,7 +43,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
-        usedHints = new ArrayList<>();
+
 
         addCheckSolutionButton();
     }
@@ -134,7 +131,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         solutionButton.setVisible(true);
         this.add(solutionButton);
     }
-    ///////////////////////////////////////////////////////////////
+
     public void addHintButton(){
         hintButton = new JButton("Pokaż podpowiedź");
         hintButton.setBounds(540,20,140,50);
@@ -142,7 +139,15 @@ public class GamePanel extends GameComponent implements ActionListener {
         hintButton.setVisible(true);
         this.add(hintButton);
     }
-    ////////////////////////////////////////////////////////////////
+
+    public void addNextBoard(){
+        nextBoardButton = new JButton("Losuj kolejną planszę");
+        nextBoardButton.setBounds(540,100,140,50);
+        nextBoardButton.addActionListener(this);
+        nextBoardButton.setVisible(true);
+        this.add(nextBoardButton);
+    }
+
     public void createChoiceButtons(){
         gridOfButtons = new JPanel(new GridBagLayout());
         gridOfButtons.setOpaque(false);
@@ -276,6 +281,16 @@ public class GamePanel extends GameComponent implements ActionListener {
         if (e.getSource() instanceof JButton && !e.getSource().equals(checkSolutionButton)) {
             checkSolutionButton.setBackground(null);
             checkSolutionButton.setText("Sprawdź rozwiązanie");
+        }
+
+        if(e.getSource() == nextBoardButton){
+            this.remove(gridPanel);
+            Board.resetBoard(Board.board);
+            clearBoard();
+            Board.generateBoard(choosenSize, false);
+            showBoard(Board.board, choosenSize);
+            this.revalidate();
+            this.repaint();
         }
         if(e.getSource()==solutionButton) {
             solveBoard();
