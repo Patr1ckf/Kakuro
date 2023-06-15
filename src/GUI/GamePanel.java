@@ -1,6 +1,7 @@
 package GUI;
 
 import Game.Board;
+import Game.GameSolver;
 import Game.Save;
 
 import javax.imageio.ImageIO;
@@ -31,6 +32,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     private int jToADD;
     private JButton hintButton;
     public static int choosenSize = 0;
+    public static boolean ifHardChoosen = false;
     public Board boardS;
 
     GamePanel(){
@@ -41,8 +43,6 @@ public class GamePanel extends GameComponent implements ActionListener {
         addHintButton();
         addNextBoard();
         addSaveButton();
-
-        Board boardS = new Board();
 
         this.setLayout(null);
         this.setVisible(false);
@@ -284,7 +284,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             }
         }
         if (e.getSource() == checkSolutionButton) {
-            if (Board.isBoardSolved()) {
+            if (Board.isBoardSolved() || GameSolver.isCorrect(Board.board, Board.board.length)) {
                 checkSolutionButton.setBackground(Color.GREEN);
                 checkSolutionButton.setText("Rozwiązanie poprawne");
             } else {
@@ -302,7 +302,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             this.remove(gridPanel);
             Board.resetBoard(Board.board);
             clearBoard();
-            Board.generateBoard(choosenSize, false);
+            Board.generateBoard(choosenSize, ifHardChoosen);
             showBoard(Board.board, choosenSize);
             this.revalidate();
             this.repaint();

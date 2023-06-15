@@ -22,6 +22,8 @@ public class Board {
         solvedBoard = new int[size][size];
         int sumR;
         int sumC;
+        int a;
+        int b;
 
 
         do {
@@ -31,19 +33,44 @@ public class Board {
 
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
+
                     if (i == 0) {
                         if (j == 0) {
                             board[i][j] = 0;
                         } else if (size <= 4 && !hardLevel) {
-                            board[i][j] = new Random().nextInt(12) + 3;
+                            if(j==1){
+                                board[i][j] = new Random().nextInt(12) + 3;
+                            }
+                            else{
+                                a = board[i][j-1];
+                                board[i][j] = new Random().nextInt(a)+1;
+                            }
                         } else if (hardLevel){
-                            board[i][j] = new Random().nextInt(18) + 7;
+                            if(j==1){
+                                board[i][j] = new Random().nextInt(22) + 12;
+                            }
+                            else{
+                                b = board[i][j-1];
+                                board[i][j] = new Random().nextInt(b)+1;
+                            }
                         }
                     } else if (j == 0) {
                         if (hardLevel) {
-                            board[i][j] = new Random().nextInt(18) + 7;
+                            if(i==1){
+                                board[i][j] = new Random().nextInt(22) + 12;
+                            }
+                            else{
+                                b = board[i-1][j];
+                                board[i][j] = new Random().nextInt(b)+1;
+                            }
                         } else if(size <=4){
-                            board[i][j] = new Random().nextInt(12) + 3;
+                            if(i==1){
+                                board[i][j] = new Random().nextInt(12) + 3;
+                            }
+                            else{
+                                a = board[i-1][j];
+                                board[i][j] = new Random().nextInt(a)+1;
+                            }
                         }
                     } else {
                         board[i][j] = 0;
