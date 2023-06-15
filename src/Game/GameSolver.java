@@ -1,6 +1,8 @@
 package Game;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameSolver {
@@ -76,7 +78,7 @@ public class GameSolver {
     public static boolean solve(int[][] board, int column, int row, int size){
 
         if(row == size){
-            printBoard(board);
+//            printBoard(board);
             return true;
         }
         else if(column == size){

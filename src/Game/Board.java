@@ -3,16 +3,26 @@ package Game;
 import java.util.Arrays;
 import java.util.Random;
 
+//import org.apache.commons.math4.*;
+import org.apache.commons.math4.legacy.linear.MatrixUtils;
+import org.apache.commons.math4.legacy.linear.RealMatrix;
+import org.apache.commons.math4.legacy.linear.SingularValueDecomposition;
+
+
 public class Board {
     public static int[][] board;
     public static int[][] solvedBoard;
     public int[][] boardToSer;
+    private static double[][] matrixValues;
+    private static double[][] integerMatrixSize3;
+    private static double[][] integerMatrixSize4;
 
     public static void generateBoard(int size, boolean hardLevel) {
         board = new int[size][size];
         solvedBoard = new int[size][size];
         int sumR;
         int sumC;
+
 
         do {
             resetBoard(board);
@@ -47,9 +57,10 @@ public class Board {
             }
 
             if (sumC == sumR) {
-                if (GameSolver.solve(board, 1, 1, size)) {
+                if (GameSolver.solve(board, 1, 1, size) && multipleSolutions(size)) {
                     copyBoard(board, solvedBoard);
                     resetForUser(board, size);
+//                    multipleSolutions(size);
                     break;
                 }
             }
@@ -88,5 +99,107 @@ public class Board {
 
     public void saving(int[][] board){
         this.boardToSer = board;
+    }
+
+    public static boolean multipleSolutions(int size){
+        RealMatrix expandedMatrix = null;
+        int numRows;
+        int numCols;
+        int rankA = 0;
+        integerMatrixSize3 = new double[][]{
+                {1.0, 0.0, 1.0, 0.0},
+                {0.0, 1.0, 0.0, 1.0},
+                {1.0, 1.0, 0.0, 0.0},
+                {0.0, 0.0, 1.0, 1.0}
+        };
+
+        integerMatrixSize4 = new double[][]{
+                {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+                {0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},
+                {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0},
+                {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0}
+        };
+
+        if(size == 3){
+            matrixValues = new double[size+1][1];
+        }
+        else if(size == 4){
+            matrixValues = new double[size+2][1];
+        }
+
+        for(int i=1; i<size; i++){
+            matrixValues[i-1][0] = board[0][i];
+        }
+        for(int i=1; i<size; i++){
+            if(size == 3){
+                matrixValues[i - 3 + matrixValues.length][0] = board[i][0];
+            }
+            else{
+                matrixValues[i - 4 + matrixValues.length][0] = board[i][0];
+            }
+        }
+
+        if(size == 3){
+            numRows = integerMatrixSize3.length;
+            numCols = integerMatrixSize3[0].length;
+
+            expandedMatrix = MatrixUtils.createRealMatrix(numRows, numCols + 1);
+
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numCols; j++) {
+                    expandedMatrix.setEntry(i, j, integerMatrixSize3[i][j]);
+                }
+                expandedMatrix.setEntry(i, numCols, matrixValues[i][0]);
+            }
+
+            org.apache.commons.math4.legacy.linear.RealMatrix matrixSize3 = MatrixUtils.createRealMatrix(integerMatrixSize3);
+            SingularValueDecomposition matrixSize3Svd = new SingularValueDecomposition(matrixSize3);
+            rankA = matrixSize3Svd.getRank();
+            System.out.println("Rank A: " + rankA);
+        }
+        else if(size == 4){
+            numRows = integerMatrixSize4.length;
+            numCols = integerMatrixSize4[0].length;
+
+            expandedMatrix = MatrixUtils.createRealMatrix(numRows, numCols + 1);
+
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numCols; j++) {
+                    expandedMatrix.setEntry(i, j, integerMatrixSize4[i][j]);
+                }
+                expandedMatrix.setEntry(i, numCols, matrixValues[i][0]);
+            }
+
+            org.apache.commons.math4.legacy.linear.RealMatrix matrixSize4 = MatrixUtils.createRealMatrix(integerMatrixSize4);
+            SingularValueDecomposition matrixSize4Svd = new SingularValueDecomposition(matrixSize4);
+            rankA = matrixSize4Svd.getRank();
+            System.out.println("rank A: " + rankA);
+        }
+
+
+        SingularValueDecomposition expandedMatrixSvd = new SingularValueDecomposition(expandedMatrix);
+        int rankAB = expandedMatrixSvd.getRank();
+        System.out.println("rank A/B: " + rankAB);
+
+
+//        numRows = expandedMatrix.getRowDimension();
+//        numCols = expandedMatrix.getColumnDimension();
+//        for (int i = 0; i < numRows; i++) {
+//            for (int j = 0; j < numCols; j++) {
+//                System.out.print(expandedMatrix.getEntry(i, j) + " ");
+//            }
+//            System.out.println();
+//        }
+
+        if(rankA == rankAB){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
     }
 }
