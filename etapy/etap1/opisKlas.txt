@@ -1,4 +1,4 @@
--> KakuroGame - głowna klasa, uruchamiająca grę
+-> Game.KakuroGame - głowna klasa, uruchamiająca grę
 -> StartPannel - klasa tworząca panel z przyciskami wyboru poziomu trudności
 -> GamePannel - klasa rozgrywki, w której zostanie umieszczona plansza oraz przyciski
 -> Game.BoardGenerator - klasa generująca planszę do gry o wielkości przekazanej jako argument konstruktora oraz umożliwiająca uzupełnianie
