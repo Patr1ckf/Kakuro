@@ -25,9 +25,10 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton buttonX;
     private JButton clickedBoard;
     private JButton nextBoardButton;
-    private JButton PrintButton;
+    private JButton printButton;
     private JButton checkSolutionButton;
     private JButton saveButton;
+    private BufferedImage backgroundImage;
     private int iToADD;
     private int jToADD;
     private JButton hintButton;
@@ -35,11 +36,12 @@ public class GamePanel extends GameComponent implements ActionListener {
     public static boolean ifHardChoosen = false;
     public Board boardS;
 
+
     GamePanel(){
         addBackButton();
         addPrintButton();
         addSolutionButton();
-
+        addCheckSolutionButton();
         addHintButton();
         addNextBoard();
         addSaveButton();
@@ -51,10 +53,19 @@ public class GamePanel extends GameComponent implements ActionListener {
         layeredPane.setBounds(30, 90, 700, 750);
         this.add(layeredPane);
 
-
-        addCheckSolutionButton();
+        try {
+            backgroundImage = ImageIO.read(new File("rsc\\background1.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            Image scaledImage = backgroundImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+            g.drawImage(scaledImage, 0, 0, null);
+        }
+    }
     @Override
     public void create(Object...args){
         this.startPanel = (StartPanel) args[0];
@@ -77,6 +88,7 @@ public class GamePanel extends GameComponent implements ActionListener {
                     temp = board[i][j];
                     gridB[i][j].setText(String.valueOf(temp));
                     gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
+                    gridB[i][j].setForeground(Color.orange);
                     gridB[i][j].setEnabled(false);
                 }
                 else if(i==0 && j==0){
@@ -111,29 +123,33 @@ public class GamePanel extends GameComponent implements ActionListener {
         gridPanel.repaint();
     }
     public void addPrintButton(){
-        PrintButton = new JButton("zapisz w postaci screena");
-        PrintButton.setBounds(180, 20, 200, 50);
-        PrintButton.addActionListener(this);
-        PrintButton.setVisible(true);
-        this.add(PrintButton);
+        printButton = new JButton("zapisz w postaci screena");
+        printButton.setBounds(550, 520, 200, 50);
+        printButton.setBackground(Color.orange);
+        printButton.addActionListener(this);
+        printButton.setVisible(true);
+        this.add(printButton);
     }
     public void addBackButton(){
         backButton = new JButton("wróc do menu");
         backButton.setBounds(30, 20, 140, 50);
+        backButton.setBackground(Color.orange);
         backButton.addActionListener(this);
         backButton.setVisible(true);
         this.add(backButton);
     }
     public void addCheckSolutionButton() {
         checkSolutionButton = new JButton("Sprawdź rozwiązanie");
-        checkSolutionButton.setBounds(620, 200, 180, 50);
+        checkSolutionButton.setBounds(550, 360, 200, 50);
+        checkSolutionButton.setBackground(Color.orange);
         checkSolutionButton.addActionListener(this);
         checkSolutionButton.setVisible(true);
         this.add(checkSolutionButton);
     }
     public void addSolutionButton(){
         solutionButton = new JButton("Pokaż rozwiązanie");
-        solutionButton.setBounds(390,20,140,50);
+        solutionButton.setBounds(550,280,200,50);
+        solutionButton.setBackground(Color.orange);
         solutionButton.addActionListener(this);
         solutionButton.setVisible(true);
         this.add(solutionButton);
@@ -141,7 +157,8 @@ public class GamePanel extends GameComponent implements ActionListener {
 
     public void addHintButton(){
         hintButton = new JButton("Pokaż podpowiedź");
-        hintButton.setBounds(540,20,140,50);
+        hintButton.setBounds(550,200,200,50);
+        hintButton.setBackground(Color.orange);
         hintButton.addActionListener(this);
         hintButton.setVisible(true);
         this.add(hintButton);
@@ -149,7 +166,8 @@ public class GamePanel extends GameComponent implements ActionListener {
 
     public void addNextBoard(){
         nextBoardButton = new JButton("Losuj kolejną planszę");
-        nextBoardButton.setBounds(540,100,140,50);
+        nextBoardButton.setBounds(550,120,200,50);
+        nextBoardButton.setBackground(Color.orange);
         nextBoardButton.addActionListener(this);
         nextBoardButton.setVisible(true);
         this.add(nextBoardButton);
@@ -157,7 +175,8 @@ public class GamePanel extends GameComponent implements ActionListener {
 
     public void addSaveButton(){
         saveButton = new JButton("Zapisz grę");
-        saveButton.setBounds(540,400,140,50);
+        saveButton.setBounds(550,440,200,50);
+        saveButton.setBackground(Color.orange);
         saveButton.addActionListener(this);
         saveButton.setVisible(true);
         this.add(saveButton);
@@ -261,7 +280,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             }
         }
 
-        if(e.getSource()==PrintButton) {
+        if(e.getSource()== printButton) {
             BufferedImage image = new BufferedImage(  gridPanel.getWidth(),   gridPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics2D = image.createGraphics();
             gridPanel.print(graphics2D);
@@ -294,7 +313,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         }
 
         if (e.getSource() instanceof JButton && !e.getSource().equals(checkSolutionButton)) {
-            checkSolutionButton.setBackground(null);
+            checkSolutionButton.setBackground(Color.orange);
             checkSolutionButton.setText("Sprawdź rozwiązanie");
         }
 
