@@ -12,7 +12,6 @@ import org.apache.commons.math4.legacy.linear.SingularValueDecomposition;
 public class Board {
     public static int[][] board;
     public static int[][] solvedBoard;
-    public int[][] boardToSer;
     private static double[][] matrixValues;
     private static double[][] integerMatrixSize3;
     private static double[][] integerMatrixSize4;
@@ -124,9 +123,6 @@ public class Board {
         }
     }
 
-    public void saving(int[][] board){
-        this.boardToSer = board;
-    }
 
     public static boolean multipleSolutions(int size){
         RealMatrix expandedMatrix = null;

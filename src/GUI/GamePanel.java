@@ -1,6 +1,7 @@
 package GUI;
 
 import Game.Board;
+import Game.BoardData;
 import Game.GameSolver;
 import Game.Save;
 
@@ -33,7 +34,6 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton hintButton;
     public static int choosenSize = 0;
     public static boolean ifHardChoosen = false;
-    public Board boardS;
 
     GamePanel(){
         addBackButton();
@@ -313,7 +313,15 @@ public class GamePanel extends GameComponent implements ActionListener {
 
         if(e.getSource() == saveButton){
             try {
-                Save.saveObj(boardS);
+                if(Board.board.length == 3){
+                    Save.saveObj(new BoardData(Board.board));
+                }
+                else if(Board.board.length == 4){
+                    Save.saveObj4(new BoardData(Board.board));
+                }
+                else{
+                    Save.saveObj5(new BoardData(Board.board));
+                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
