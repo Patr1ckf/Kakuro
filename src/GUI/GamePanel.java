@@ -4,7 +4,7 @@ import Game.Board;
 import Game.BoardData;
 import Game.GameSolver;
 import Game.Save;
-
+import org.apache.commons.math4.legacy.core.Pair;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -35,6 +37,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     public static int choosenSize = 0;
     public static boolean ifHardChoosen = false;
     public static boolean hardLevel;
+    private final List<Pair<Integer, Integer>> CellsUsed = new ArrayList<>();
 
 
     GamePanel(){
@@ -90,12 +93,14 @@ public class GamePanel extends GameComponent implements ActionListener {
                     gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
                     gridB[i][j].setForeground(Color.orange);
                     gridB[i][j].setEnabled(false);
+                    gridB[i][j].setFocusable(false);
                 }
                 else if(i==0 && j==0){
                     gridB[i][j].setEnabled(false);
                 }
                 else{
                     gridB[i][j].addActionListener(this);
+                    gridB[i][j].setBackground(Color.white);
                 }
                 gridPanel.add(gridB[i][j]);
             }
@@ -113,6 +118,7 @@ public class GamePanel extends GameComponent implements ActionListener {
                 gridB[i][j].setText(String.valueOf(Board.solvedBoard[i][j]));
                 gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
                 gridB[i][j].setEnabled(false);
+                gridB[i][j].setFocusable(false);
                 Board.board[i][j] = Board.solvedBoard[i][j];
             }
         }
@@ -195,7 +201,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             if(size == 3){
                 path = "D:\\Java Projects\\Kakuro\\Saves\\savedObj" + size + ".ser";
             }
-            else if(size == 4 && hardLevel != true){
+            else if(size == 4 && !hardLevel){
                 path = "D:\\Java Projects\\Kakuro\\Saves\\savedObj" + size + ".ser";
             }
             else{
@@ -203,7 +209,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             }
             FileInputStream fileIn = new FileInputStream(path);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            Object obj = objectIn.readObject();
+            objectIn.readObject();
             objectIn.close();
             fileIn.close();
 
@@ -211,7 +217,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             fileOut.write(new byte[0]);
             fileOut.close();
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException ignored) {
 
         }
     }
@@ -228,23 +234,24 @@ public class GamePanel extends GameComponent implements ActionListener {
         choiceButtons = new JButton[9];
         for (int i = 0; i < 9; i++) {
             choiceButtons[i] = new JButton(String.valueOf(i + 1));
+            choiceButtons[i].setBackground(new Color(238, 238, 238));
             choiceButtons[i].setFont(new Font("Mv Boli", Font.PLAIN, 18));
             choiceButtons[i].addActionListener(e -> {
                 JButton clicked = (JButton) e.getSource();
                 for (JButton choiceButton : choiceButtons) {
                     if (clicked == choiceButton) {
-                        System.out.println(choiceButton);
+//                        System.out.println(choiceButton);
                         clickedBoard.setText(clicked.getText());
                         clickedBoard.setFont(new Font("MV Boli", Font.PLAIN, 45));
                         Board.board[iToADD][jToADD] = Integer.parseInt(clickedBoard.getText());
                         gridOfButtons.setVisible(false);
 
-                        for(int[] l:Board.board){
-                            for(int j:l){
-                                System.out.print(j +" ");
-                            }
-                            System.out.println();
-                        }
+//                        for(int[] l:Board.board){
+//                            for(int j:l){
+//                                System.out.print(j +" ");
+//                            }
+//                            System.out.println();
+//                        }
                     }
                 }
             });
@@ -254,20 +261,21 @@ public class GamePanel extends GameComponent implements ActionListener {
         }
 
         buttonX = new JButton("X");
+        buttonX.setBackground(new Color(238, 238, 238));
         buttonX.setFont(new Font("Mv Boli", Font.PLAIN, 18));
         buttonX.setHorizontalAlignment(SwingConstants.CENTER);
         buttonX.addActionListener(e -> {
-            System.out.println("X");
+//            System.out.println("X");
             clickedBoard.setText("");
             Board.board[iToADD][jToADD] = 0;
             gridOfButtons.setVisible(false);
 
-            for(int[] l:Board.board){
-                for(int j:l){
-                    System.out.print(j +" ");
-                }
-                System.out.println();
-            }
+//            for(int[] l:Board.board){
+//                for(int j:l){
+//                    System.out.print(j +" ");
+//                }
+//                System.out.println();
+//            }
         });
         constraints.gridx = 1;
         constraints.gridy = 3;
@@ -302,6 +310,23 @@ public class GamePanel extends GameComponent implements ActionListener {
         this.repaint();
     }
 
+    private boolean usedCell(int row, int col) {
+        for (Pair<Integer, Integer> miejsce : CellsUsed) {
+            if (miejsce.getFirst() == row && miejsce.getSecond() == col) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isEmpty(int row, int col) {
+        return Board.board[row][col] == 0;
+    }
+
+    private boolean mistakeCell(int row, int col) {
+        return Board.board[row][col] != Board.solvedBoard[row][col];
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==backButton){
@@ -331,7 +356,7 @@ public class GamePanel extends GameComponent implements ActionListener {
             // Zapis obrazu do pliku JPG
             try {
                 ImageIO.write(image, "jpg", outputFile);
-                System.out.println("Zapisano obraz do pliku: " + outputFile.getAbsolutePath());
+//                System.out.println("Zapisano obraz do pliku: " + outputFile.getAbsolutePath());
             } catch (Exception a) {
                 a.printStackTrace();
             }
@@ -370,7 +395,7 @@ public class GamePanel extends GameComponent implements ActionListener {
                 if(Board.board.length == 3){
                     Save.saveObj(new BoardData(Board.board));
                 }
-                else if(Board.board.length == 4 && hardLevel != true){
+                else if(Board.board.length == 4 && !hardLevel){
                     Save.saveObj4(new BoardData(Board.board));
                 }
                 else if(hardLevel){
@@ -383,26 +408,26 @@ public class GamePanel extends GameComponent implements ActionListener {
 
         if (e.getSource() == hintButton) {
             if (Board.solvedBoard == null) {
-                System.out.println("Brak dostępnego rozwiązania.");
+//                System.out.println("Brak dostępnego rozwiązania.");
                 return;
             }
             // Losowanie pustego miejsca na planszy nie biorac pod uwage 1 wiersza i 1 kolumny
             int size = Board.board.length;
-            int row = 1;
-            int col = 1;
+            int row;
+            int col;
 
-            if (!Board.isBoardSolved()) {
-                do {
-                    row = (int) (Math.random() * (size-1))+1;
-                    col = (int) (Math.random() * (size-1))+1;
+            do {
+                row = (int) (Math.random() * (size-1))+1;
+                col = (int) (Math.random() * (size-1))+1;
 
-                } while (Board.board[row][col] != 0);
-            }
+            } while (!isEmpty(row, col) && !mistakeCell(row, col) && usedCell(row, col));
+            CellsUsed.add(new Pair<>(row, col));
 
             // Uzupełnienie wylosowanego miejsca zgodnie ze zmienną solvedBoard
             gridB[row][col].setText(String.valueOf(Board.solvedBoard[row][col]));
             gridB[row][col].setFont(new Font("MV Boli", Font.PLAIN, 45));
             gridB[row][col].setEnabled(false);
+            gridB[row][col].setFocusable(false);
             Board.board[row][col] = Board.solvedBoard[row][col];
         }
 
@@ -410,7 +435,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         for(int i=0; i< gridB.length; i++){
             for(int j=0; j<gridB[i].length; j++){
                 if(clickedBoard == gridB[i][j]){
-                    System.out.println(i + "" + j);
+//                    System.out.println(i + "" + j);
                     iToADD = i;
                     jToADD = j;
                     showChoiceOfButtons(gridB[i][j].getX(), gridB[i][j].getY());

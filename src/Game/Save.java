@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Save implements Serializable{
 
-    static public void saveObj(BoardData obj) throws IOException {
+    static public void saveObj(BoardData ignoredObj) throws IOException {
 
         BoardData boardData = new BoardData(Board.board);
 
@@ -21,7 +21,7 @@ public class Save implements Serializable{
 
 
     static public int[][] readObj() throws IOException, ClassNotFoundException {
-        BoardData objRead = null;
+        BoardData objRead;
 
         FileInputStream fileIn = new FileInputStream("Saves/savedObj3.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -34,7 +34,7 @@ public class Save implements Serializable{
         return objRead.getBoard();
     }
 
-    static public void saveObj4(BoardData obj) throws IOException {
+    static public void saveObj4(BoardData ignoredObj) throws IOException {
 
         BoardData boardData = new BoardData(Board.board);
 
@@ -51,7 +51,7 @@ public class Save implements Serializable{
 
 
     static public int[][] readObj4() throws IOException, ClassNotFoundException {
-        BoardData objRead = null;
+        BoardData objRead;
 
         FileInputStream fileIn = new FileInputStream("Saves/savedObj4.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -64,7 +64,7 @@ public class Save implements Serializable{
         return objRead.getBoard();
     }
 
-    static public void saveObj5(BoardData obj) throws IOException {
+    static public void saveObj5(BoardData ignoredObj) throws IOException {
 
         BoardData boardData = new BoardData(Board.board);
 
@@ -81,7 +81,7 @@ public class Save implements Serializable{
 
 
     static public int[][] readObj5() throws IOException, ClassNotFoundException {
-        BoardData objRead = null;
+        BoardData objRead;
 
         FileInputStream fileIn = new FileInputStream("Saves/savedObj5.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);

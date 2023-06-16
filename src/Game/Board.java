@@ -13,8 +13,6 @@ public class Board {
     public static int[][] board;
     public static int[][] solvedBoard;
     private static double[][] matrixValues;
-    private static double[][] integerMatrixSize3;
-    private static double[][] integerMatrixSize4;
 
     public static void generateBoard(int size, boolean hardLevel) {
         board = new int[size][size];
@@ -129,14 +127,14 @@ public class Board {
         int numRows;
         int numCols;
         int rankA = 0;
-        integerMatrixSize3 = new double[][]{
+        double[][] integerMatrixSize3 = new double[][]{
                 {1.0, 0.0, 1.0, 0.0},
                 {0.0, 1.0, 0.0, 1.0},
                 {1.0, 1.0, 0.0, 0.0},
                 {0.0, 0.0, 1.0, 1.0}
         };
 
-        integerMatrixSize4 = new double[][]{
+        double[][] integerMatrixSize4 = new double[][]{
                 {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0},
                 {0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},
                 {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0},
@@ -180,7 +178,7 @@ public class Board {
             org.apache.commons.math4.legacy.linear.RealMatrix matrixSize3 = MatrixUtils.createRealMatrix(integerMatrixSize3);
             SingularValueDecomposition matrixSize3Svd = new SingularValueDecomposition(matrixSize3);
             rankA = matrixSize3Svd.getRank();
-            System.out.println("Rank A: " + rankA);
+//            System.out.println("Rank A: " + rankA);
         }
         else if(size == 4){
             numRows = integerMatrixSize4.length;
@@ -198,30 +196,28 @@ public class Board {
             org.apache.commons.math4.legacy.linear.RealMatrix matrixSize4 = MatrixUtils.createRealMatrix(integerMatrixSize4);
             SingularValueDecomposition matrixSize4Svd = new SingularValueDecomposition(matrixSize4);
             rankA = matrixSize4Svd.getRank();
-            System.out.println("rank A: " + rankA);
+//            System.out.println("rank A: " + rankA);
         }
 
 
+        assert expandedMatrix != null;
         SingularValueDecomposition expandedMatrixSvd = new SingularValueDecomposition(expandedMatrix);
         int rankAB = expandedMatrixSvd.getRank();
-        System.out.println("rank A/B: " + rankAB);
+//        System.out.println("rank A/B: " + rankAB);
 
 
-//        numRows = expandedMatrix.getRowDimension();
-//        numCols = expandedMatrix.getColumnDimension();
-//        for (int i = 0; i < numRows; i++) {
-//            for (int j = 0; j < numCols; j++) {
-//                System.out.print(expandedMatrix.getEntry(i, j) + " ");
-//            }
-//            System.out.println();
-//        }
-
-        if(rankA == rankAB){
-            return true;
+/*
+        numRows = expandedMatrix.getRowDimension();
+        numCols = expandedMatrix.getColumnDimension();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                System.out.print(expandedMatrix.getEntry(i, j) + " ");
+            }
+            System.out.println();
         }
-        else{
-            return false;
-        }
+*/
+
+        return rankA == rankAB;
 
 
     }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class BoardData implements Serializable {
     public int[][] boardSave;
-    private Board board;
 
     public BoardData(int[][] board) {
         this.boardSave = board;

@@ -96,7 +96,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                     Board.generateBoard(3, false);
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
+//                System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(3, false);
             }
             GamePanel.hardLevel = false;
@@ -121,7 +121,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                     Board.generateBoard(4, false);
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
+//                System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(4, false);
             }            gamePanel.create(this);
             GamePanel.hardLevel = false;
@@ -136,7 +136,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                     Board.board = savedBoard;
                     int[][] temp = new int[ Board.board.length][ Board.board.length];
                     Board.copyBoard(savedBoard, temp);
-                    System.out.println("Board loaded");
+//                    System.out.println("Board loaded");
                     GameSolver.solve(temp, 1, 1, Board.board.length);
                     Board.solvedBoard = new int[Board.board.length][Board.board.length];
                     Board.copyBoard(temp, Board.solvedBoard);
@@ -145,7 +145,6 @@ public class StartPanel extends GameComponent implements ActionListener {
                     Board.generateBoard(4, true);
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(4, true);
             }
             GamePanel.hardLevel = true;
