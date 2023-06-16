@@ -4,10 +4,13 @@ import Game.Board;
 import Game.GameSolver;
 import Game.Save;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class StartPanel extends GameComponent implements ActionListener {
@@ -15,6 +18,7 @@ public class StartPanel extends GameComponent implements ActionListener {
     private JButton mediumButton;
     private JButton hardButton;
     private GamePanel gamePanel;
+    private BufferedImage backgroundImage;
 
     public void setGamePanel(GameComponent gamePanel) {
         this.gamePanel = (GamePanel) gamePanel;
@@ -26,16 +30,32 @@ public class StartPanel extends GameComponent implements ActionListener {
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 200));
         this.addButtons();
         this.setVisible(true);
-    }
 
+        try {
+            backgroundImage = ImageIO.read(new File("rsc\\background.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            Image scaledImage = backgroundImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+            g.drawImage(scaledImage, 0, 0, null);
+        }
+    }
     public void addButtons(){
-        easyButton = new JButton("Easy");
-        mediumButton = new JButton("Medium");
-        hardButton = new JButton("Hard");
+        easyButton = new JButton("Poziom 1");
+        mediumButton = new JButton("Poziom 2");
+        hardButton = new JButton("Poziom 3");
 
         easyButton.setPreferredSize(new Dimension(200,200));
         mediumButton.setPreferredSize(new Dimension(200,200));
         hardButton.setPreferredSize(new Dimension(200,200));
+
+        easyButton.setBackground(Color.orange);
+        mediumButton.setBackground(Color.orange);
+        hardButton.setBackground(Color.orange);
 
         easyButton.addActionListener(this);
         mediumButton.addActionListener(this);
