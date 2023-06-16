@@ -1,15 +1,12 @@
 package GUI;
 
 import Game.Board;
-import Game.BoardData;
 import Game.GameSolver;
-import Game.Save;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class StartPanel extends GameComponent implements ActionListener {
     private JButton easyButton;
@@ -54,74 +51,21 @@ public class StartPanel extends GameComponent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==easyButton){
-
-            try {
-                int[][] savedBoard = Save.readObj();
-                if (savedBoard != null) {
-                    Board.board = savedBoard;
-                    int[][] temp = new int[ Board.board.length][ Board.board.length];
-                    Board.copyBoard(savedBoard, temp);
-                    System.out.println("Board loaded");
-                    GameSolver.solve(temp, 1, 1, Board.board.length);
-                    Board.solvedBoard = new int[Board.board.length][Board.board.length];
-                    Board.copyBoard(temp, Board.solvedBoard);
-//                    Board.resetForUser(Board.board, Board.board.length);
-                } else {
-                    Board.generateBoard(3, false);
-                }
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
-                Board.generateBoard(3, false);
-            }
-
+            Board.generateBoard(3, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 3);
             GamePanel.choosenSize = 3;
             this.setVisible(false);
         }
         else if(e.getSource()==mediumButton){
-            try {
-                int[][] savedBoard = Save.readObj4();
-                if (savedBoard != null) {
-                    Board.board = savedBoard;
-                    int[][] temp = new int[ Board.board.length][ Board.board.length];
-                    Board.copyBoard(savedBoard, temp);
-                    System.out.println("Board loaded");
-                    GameSolver.solve(temp, 1, 1, Board.board.length);
-                    Board.solvedBoard = new int[Board.board.length][Board.board.length];
-                    Board.copyBoard(temp, Board.solvedBoard);
-//                    Board.resetForUser(Board.board, Board.board.length);
-                } else {
-                    Board.generateBoard(4, false);
-                }
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
-                Board.generateBoard(4, false);
-            }
+            Board.generateBoard(4, false);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
             GamePanel.choosenSize = 4;
             this.setVisible(false);
         }
         else if(e.getSource()==hardButton){
-            try {
-                int[][] savedBoard = Save.readObj5();
-                if (savedBoard != null) {
-                    Board.board = savedBoard;
-                    int[][] temp = new int[ Board.board.length][ Board.board.length];
-                    Board.copyBoard(savedBoard, temp);
-                    System.out.println("Board loaded");
-                    GameSolver.solve(temp, 1, 1, Board.board.length);
-                    Board.solvedBoard = new int[Board.board.length][Board.board.length];
-                    Board.copyBoard(temp, Board.solvedBoard);
-//                    Board.resetForUser(Board.board, Board.board.length);
-                } else {
-                    Board.generateBoard(4, true);
-                }
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("No saved board " + ex.getMessage());
-                Board.generateBoard(4, true);
-            }
+            Board.generateBoard(4, true);
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
             GamePanel.choosenSize = 4;
