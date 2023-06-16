@@ -200,17 +200,12 @@ public class GamePanel extends GameComponent implements ActionListener {
             objectIn.close();
             fileIn.close();
 
-            Object newObj = null;
-
             FileOutputStream fileOut = new FileOutputStream(path);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(newObj);
-            objectOut.close();
+            fileOut.write(new byte[0]);
             fileOut.close();
 
-            System.out.println("Dane zostały usunięte z pliku .ser.");
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+
         }
     }
 
