@@ -71,6 +71,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                 System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(3, false);
             }
+            GamePanel.hardLevel = false;
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 3);
             GamePanel.choosenSize = 3;
@@ -95,6 +96,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                 System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(4, false);
             }            gamePanel.create(this);
+            GamePanel.hardLevel = false;
             gamePanel.showBoard(Board.board, 4);
             GamePanel.choosenSize = 4;
             this.setVisible(false);
@@ -118,6 +120,7 @@ public class StartPanel extends GameComponent implements ActionListener {
                 System.out.println("No saved board " + ex.getMessage());
                 Board.generateBoard(4, true);
             }
+            GamePanel.hardLevel = true;
             gamePanel.create(this);
             gamePanel.showBoard(Board.board, 4);
             GamePanel.choosenSize = 4;

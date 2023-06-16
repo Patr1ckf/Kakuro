@@ -11,8 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class GamePanel extends GameComponent implements ActionListener {
     private final JLayeredPane layeredPane;
@@ -35,6 +34,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     private JButton hintButton;
     public static int choosenSize = 0;
     public static boolean ifHardChoosen = false;
+    public static boolean hardLevel;
 
 
     GamePanel(){
@@ -182,6 +182,38 @@ public class GamePanel extends GameComponent implements ActionListener {
         this.add(saveButton);
     }
 
+    public void deleteSaves(int size, boolean hardLevel) {
+        String path;
+        try {
+            if(size == 3){
+                path = "D:\\Java Projects\\Kakuro\\Saves\\savedObj" + size + ".ser";
+            }
+            else if(size == 4 && hardLevel != true){
+                path = "D:\\Java Projects\\Kakuro\\Saves\\savedObj" + size + ".ser";
+            }
+            else{
+                path = "D:\\Java Projects\\Kakuro\\Saves\\savedObj" + (size + 1)  + ".ser";
+            }
+            FileInputStream fileIn = new FileInputStream(path);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            Object obj = objectIn.readObject();
+            objectIn.close();
+            fileIn.close();
+
+            Object newObj = null;
+
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(newObj);
+            objectOut.close();
+            fileOut.close();
+
+            System.out.println("Dane zostały usunięte z pliku .ser.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createChoiceButtons(){
         gridOfButtons = new JPanel(new GridBagLayout());
         gridOfButtons.setOpaque(false);
@@ -318,6 +350,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         }
 
         if(e.getSource() == nextBoardButton){
+            deleteSaves(Board.board.length, hardLevel);
             this.remove(gridPanel);
             Board.resetBoard(Board.board);
             clearBoard();
@@ -335,10 +368,10 @@ public class GamePanel extends GameComponent implements ActionListener {
                 if(Board.board.length == 3){
                     Save.saveObj(new BoardData(Board.board));
                 }
-                else if(Board.board.length == 4){
+                else if(Board.board.length == 4 && hardLevel != true){
                     Save.saveObj4(new BoardData(Board.board));
                 }
-                else{
+                else if(hardLevel){
                     Save.saveObj5(new BoardData(Board.board));
                 }
             } catch (IOException ex) {
