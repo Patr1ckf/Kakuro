@@ -8,7 +8,7 @@ public class Save implements Serializable{
 
         BoardData boardData = new BoardData(Board.board);
 
-        FileOutputStream fileOut = new FileOutputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj3.ser");
+        FileOutputStream fileOut = new FileOutputStream("Saves/savedObj3.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
         out.writeObject(boardData);
@@ -23,7 +23,7 @@ public class Save implements Serializable{
     static public int[][] readObj() throws IOException, ClassNotFoundException {
         BoardData objRead = null;
 
-        FileInputStream fileIn = new FileInputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj3.ser");
+        FileInputStream fileIn = new FileInputStream("Saves/savedObj3.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
 
         objRead = (BoardData) in.readObject();
@@ -38,7 +38,7 @@ public class Save implements Serializable{
 
         BoardData boardData = new BoardData(Board.board);
 
-        FileOutputStream fileOut = new FileOutputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj4.ser");
+        FileOutputStream fileOut = new FileOutputStream("Saves/savedObj4.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
         out.writeObject(boardData);
@@ -53,7 +53,7 @@ public class Save implements Serializable{
     static public int[][] readObj4() throws IOException, ClassNotFoundException {
         BoardData objRead = null;
 
-        FileInputStream fileIn = new FileInputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj4.ser");
+        FileInputStream fileIn = new FileInputStream("Saves/savedObj4.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
 
         objRead = (BoardData) in.readObject();
@@ -68,7 +68,7 @@ public class Save implements Serializable{
 
         BoardData boardData = new BoardData(Board.board);
 
-        FileOutputStream fileOut = new FileOutputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj5.ser");
+        FileOutputStream fileOut = new FileOutputStream("Saves/savedObj5.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
         out.writeObject(boardData);
@@ -83,7 +83,7 @@ public class Save implements Serializable{
     static public int[][] readObj5() throws IOException, ClassNotFoundException {
         BoardData objRead = null;
 
-        FileInputStream fileIn = new FileInputStream("D:\\Java Projects\\Kakuro\\Saves\\savedObj5.ser");
+        FileInputStream fileIn = new FileInputStream("Saves/savedObj5.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
 
         objRead = (BoardData) in.readObject();

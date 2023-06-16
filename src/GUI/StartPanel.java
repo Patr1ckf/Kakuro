@@ -26,7 +26,7 @@ public class StartPanel extends GameComponent implements ActionListener {
 
     @Override
     public void create(Object...args){
-        this.setBounds(50, 50 , 800, 700);
+        this.setBounds(0, 0 , 800, 700);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 200));
         this.addButtons();
         this.setVisible(true);
@@ -57,6 +57,10 @@ public class StartPanel extends GameComponent implements ActionListener {
         mediumButton.setBackground(Color.orange);
         hardButton.setBackground(Color.orange);
 
+        easyButton.setFont(new Font("Mv Boli", Font.BOLD, 27));
+        mediumButton.setFont(new Font("Mv Boli", Font.BOLD, 27));
+        hardButton.setFont(new Font("Mv Boli", Font.BOLD, 27));
+
         easyButton.addActionListener(this);
         mediumButton.addActionListener(this);
         hardButton.addActionListener(this);
@@ -64,6 +68,10 @@ public class StartPanel extends GameComponent implements ActionListener {
         easyButton.setVisible(true);
         mediumButton.setVisible(true);
         hardButton.setVisible(true);
+
+        easyButton.setFocusable(false);
+        mediumButton.setFocusable(false);
+        hardButton.setFocusable(false);
 
         this.add(easyButton);
         this.add(mediumButton);

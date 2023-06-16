@@ -1,7 +1,5 @@
 package GUI;
 
-import Game.Board;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +9,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(){
         this.setLayout(null);
-        this.setSize(new Dimension(900, 800));
+        this.setSize(new Dimension(800, 700));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLocationRelativeTo(null);

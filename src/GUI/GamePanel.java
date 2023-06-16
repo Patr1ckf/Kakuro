@@ -48,9 +48,9 @@ public class GamePanel extends GameComponent implements ActionListener {
 
         this.setLayout(null);
         this.setVisible(false);
-        this.setBounds(50, 0, 800, 750);
+        this.setBounds(0, 0, 800, 750);
         layeredPane = new JLayeredPane();
-        layeredPane.setBounds(30, 90, 700, 750);
+        layeredPane.setBounds(30, 70, 700, 750);
         this.add(layeredPane);
 
         try {
@@ -78,7 +78,7 @@ public class GamePanel extends GameComponent implements ActionListener {
     public void showBoard(int[][] board, int size){
         gridB = new JButton[size][size];
         gridPanel.setLayout(new GridLayout(size, size));
-        gridPanel.setBounds(0, 0, 500, 600);
+        gridPanel.setBounds(0, 0, 450, 550);
         int temp;
 
         for(int i=0; i<size; i++){
@@ -128,14 +128,16 @@ public class GamePanel extends GameComponent implements ActionListener {
         printButton.setBackground(Color.orange);
         printButton.addActionListener(this);
         printButton.setVisible(true);
+        printButton.setFocusable(false);
         this.add(printButton);
     }
     public void addBackButton(){
         backButton = new JButton("wróc do menu");
-        backButton.setBounds(30, 20, 140, 50);
+        backButton.setBounds(30, 10, 140, 45);
         backButton.setBackground(Color.orange);
         backButton.addActionListener(this);
         backButton.setVisible(true);
+        backButton.setFocusable(false);
         this.add(backButton);
     }
     public void addCheckSolutionButton() {
@@ -144,6 +146,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         checkSolutionButton.setBackground(Color.orange);
         checkSolutionButton.addActionListener(this);
         checkSolutionButton.setVisible(true);
+        checkSolutionButton.setFocusable(false);
         this.add(checkSolutionButton);
     }
     public void addSolutionButton(){
@@ -152,6 +155,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         solutionButton.setBackground(Color.orange);
         solutionButton.addActionListener(this);
         solutionButton.setVisible(true);
+        solutionButton.setFocusable(false);
         this.add(solutionButton);
     }
 
@@ -161,6 +165,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         hintButton.setBackground(Color.orange);
         hintButton.addActionListener(this);
         hintButton.setVisible(true);
+        hintButton.setFocusable(false);
         this.add(hintButton);
     }
 
@@ -170,6 +175,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         nextBoardButton.setBackground(Color.orange);
         nextBoardButton.addActionListener(this);
         nextBoardButton.setVisible(true);
+        nextBoardButton.setFocusable(false);
         this.add(nextBoardButton);
     }
 
@@ -179,6 +185,7 @@ public class GamePanel extends GameComponent implements ActionListener {
         saveButton.setBackground(Color.orange);
         saveButton.addActionListener(this);
         saveButton.setVisible(true);
+        saveButton.setFocusable(false);
         this.add(saveButton);
     }
 
@@ -279,7 +286,7 @@ public class GamePanel extends GameComponent implements ActionListener {
                 choiceButtons[i].setFont(new Font("Mv Boli", Font.PLAIN, 14));
             }
             buttonX.setFont(new Font("Mv Boli", Font.PLAIN, 12));
-            gridOfButtons.setBounds(x+10, y+65, 135, 135);
+            gridOfButtons.setBounds(x+10, y+47, 135, 135);
         }
         else if(gridB.length==5){
             for (int i = 0; i < 9; i++) {
