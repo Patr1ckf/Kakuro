@@ -83,11 +83,21 @@ public class GamePanel extends GameComponent implements ActionListener {
         gridPanel.setLayout(new GridLayout(size, size));
         gridPanel.setBounds(0, 0, 450, 550);
         int temp;
+        for(int[] l:Board.board){
+                            for(int j:l){
+                                System.out.print(j +" ");
+                            }
+                            System.out.println();
+                        }
 
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++) {
                 gridB[i][j] = new JButton();
-                if(board[i][j] != 0){
+                if(i==0 && j==0){
+                    gridB[i][j].setText("");
+                    gridB[i][j].setEnabled(false);
+                }
+                else if(i==0 || j==0){
                     temp = board[i][j];
                     gridB[i][j].setText(String.valueOf(temp));
                     gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
@@ -95,10 +105,12 @@ public class GamePanel extends GameComponent implements ActionListener {
                     gridB[i][j].setEnabled(false);
                     gridB[i][j].setFocusable(false);
                 }
-                else if(i==0 && j==0){
-                    gridB[i][j].setEnabled(false);
-                }
                 else{
+                    if(board[i][j] != 0){
+                        temp = board[i][j];
+                        gridB[i][j].setText(String.valueOf(temp));
+                        gridB[i][j].setFont(new Font("MV Boli", Font.PLAIN, 45));
+                    }
                     gridB[i][j].addActionListener(this);
                     gridB[i][j].setBackground(Color.white);
                 }
